@@ -80,8 +80,8 @@ public class Responder
                     for(String k : keyArray){
                         responseMap.put(k.trim(),response);
                     }
-                    response = reader.readLine();
                     keyWord = reader.readLine();
+                    response = reader.readLine();
                     next = reader.readLine();
                 }else if(!next.trim().isEmpty()){
                     response += " " + next;
