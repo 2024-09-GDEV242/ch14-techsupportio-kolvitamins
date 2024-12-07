@@ -71,27 +71,29 @@ public class Responder
         Charset charset = Charset.forName("US-ASCII");
         Path path = Paths.get(FILE_OF_RESPONSES);
         try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
+            String keyWord = reader.readLine();
             String response = reader.readLine();
             String next = reader.readLine();
-            String key = reader.readLine();
-            while(next != null && key != null) {
+            while(next != null && keyWord != null) {
                 if(next.trim().isEmpty()){
-                    String[] keyWordArray = key.split(",");
-                    for(String k : keyWordArray){
+                    String[] keyArray = keyWord.split(",");
+                    for(String k : keyArray){
                         responseMap.put(k.trim(),response);
                     }
                     response = reader.readLine();
-                    key = reader.readLine();
+                    keyWord = reader.readLine();
                     next = reader.readLine();
                 }else if(!next.trim().isEmpty()){
                     response += " " + next;
                     next = reader.readLine();
                     if(next == null){
                         next = "";
-                    }            
+                    }
+                }else{
+                    defaultResponses.add(response);
+                    response = reader.readLine(); 
                 }
             }
-            
         }
         catch(FileNotFoundException e) {
             System.err.println("Unable to open " + FILE_OF_RESPONSES);
